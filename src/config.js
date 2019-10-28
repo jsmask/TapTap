@@ -1,0 +1,1 @@
+export const BASEURL="https://www.fastmock.site/mock/519cece56f2a5a2f31ea71c773ff13e2/api"
