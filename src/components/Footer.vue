@@ -95,7 +95,9 @@ export default {
   height: auto;
   box-sizing: border-box;
   text-align: center;
+  position: relative;
 }
+
 .footer > h6 {
   margin: 0 0 16px 0;
   padding: 0;

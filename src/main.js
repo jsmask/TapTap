@@ -7,13 +7,24 @@ import 'normalize.css'
 import '../node_modules/swiper/css/swiper.min.css'
 import './assets/reset.css'
 import './rem'
+import VueLazyload from 'vue-lazyload'
+import Lazy from 'components/Lazy'
+import { randomRgbColor } from '@/untils'
 
+Vue.use(VueLazyload)
 
-
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  attempt: 1,
+  listenEvents: ['scroll']
+})
 
 Vue.component(Cell.name, Cell);
 Vue.component(Button.name, Button);
 Vue.component(Header.name, Header);
+Vue.component(Lazy.name, Lazy);
+
+Vue.prototype.$color = randomRgbColor;
 
 Vue.prototype.$toast = ({ message, position, duration }) => {
   Toast({

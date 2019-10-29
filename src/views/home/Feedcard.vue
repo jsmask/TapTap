@@ -1,28 +1,24 @@
 <template>
   <div class="feed-card">
-    <img
-      class="feed-pic"
-      src="http://i2.tiimg.com/702446/749970417c2f5dc1.jpg"
-      style="background: #14B9C8;"
-      alt
-    />
-    <div class="feed-content">
+    <div class="feed-pic" :style="{'background-color':feed&&feed.color}">
+      <Lazy v-if="feed" :src="feed.pic" :key="feed._id" />
+    </div>
+    <div class="feed-bottom"></div>
+    <div class="feed-content" v-if="feed">
       <h5 class="feed-origin">编辑推荐</h5>
       <div class="feed-info">
-        <img
-          src="http://i2.tiimg.com/702446/5a2a141d66cef367.png"
-          class="feed-head"
-          alt
-        />
+        <div class="feed-head" :style="{'background-color':feed&&feed.color}">
+          <Lazy :src="feed.face" />
+        </div>
         <div class="feed-wbox">
-          <h6 class="feed-title">厚厚的时光</h6>
-          <p class="feed-description">解谜时光，品味爱情</p>
+          <h6 class="feed-title">{{feed.name}}</h6>
+          <p class="feed-description">{{feed.desc}}</p>
         </div>
         <div class="feed-sbox">
-          <p class="review-count">263人评分</p>
+          <p class="review-count">{{feed.num}}人评分</p>
           <p class="rating-score">
             <i class="iconfont">&#xe85f;</i>
-            <span>9.2</span>
+            <span>{{feed.score}}</span>
           </p>
         </div>
       </div>
@@ -36,7 +32,7 @@ export default {
     return {};
   },
   props: {
-    src: String
+    feed: Object
   }
 };
 </script>
@@ -53,13 +49,21 @@ export default {
   border-radius: 5px;
 }
 .feed-pic {
-  object-fit: cover;
   position: absolute;
   left: 15px;
   top: 15px;
   width: 345px;
   height: 345px;
   border-radius: 5px;
+  overflow: hidden;
+}
+.feed-pic img{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 345px;
+  height: 345px;
+  object-fit: cover;
 }
 .feed-content {
   position: relative;
@@ -72,11 +76,16 @@ export default {
   justify-content: space-between;
 }
 .feed-head {
-  border-radius: 5px;
+  border-radius: 12px;
   width: 50px;
   height: 50px;
   margin-right: 15px;
   display: block;
+  object-fit: cover;
+}
+.feed-head img{
+  width: 50px;
+  height: 50px;
   object-fit: cover;
 }
 .feed-info {
@@ -89,7 +98,7 @@ export default {
 }
 .feed-title {
   font-size: 16px;
-  line-height: 28px;
+  line-height: 26px;
   font-weight: 700;
   color: #ffffff;
 }
@@ -98,29 +107,38 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #ffffff;
-  line-height: 28px;
+  line-height: 24px;
 }
 .feed-sbox p {
   color: #ffffff;
 }
 .review-count {
   font-size: 10px;
-  line-height: 28px;
+  line-height: 26px;
   font-weight: 700;
 }
 .feed-sbox {
   margin-left: auto;
-  line-height: 28px;
+  line-height: 24px;
   text-align: right;
 }
 .feed-sbox i {
   vertical-align: middle;
   display: inline-block;
   margin-right: 7px;
-  font-size:16px;
+  font-size: 15px;
 }
 .rating-score span {
-  font-size: 18px;
+  font-size: 16px;
   vertical-align: middle;
+}
+.feed-bottom {
+  background-image: linear-gradient(to bottom, rgba(40, 37, 56, 0), #282538);
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  height: 118px;
+  border-radius: 0 0 5px 5px;
 }
 </style>

@@ -37,4 +37,7 @@ export default {
 </script>
 
 <style scoped>
+.swiper-container {
+  background: #fff;
+}
 </style>
