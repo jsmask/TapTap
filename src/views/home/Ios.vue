@@ -147,7 +147,7 @@ export default {
     },
     async loadMore() {
       let res = await reqHomeMore({
-        type: "android",
+        type: "ios",
         page: this.page
       });
       const { status, data, text } = res;
