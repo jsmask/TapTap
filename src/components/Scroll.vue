@@ -11,7 +11,8 @@ import BScroll from "@better-scroll/core";
 export default {
   data() {
     return {
-      startY:0,
+      startX: 0,
+      startY: 0,
       scroll: null,
       scrollY: true,
       bounce: {
@@ -21,13 +22,13 @@ export default {
         right: false
       },
       clientHeight: 0,
-      eventPassthrough:'vertical'
+      eventPassthrough: "vertical"
     };
   },
   props: {
-    probeType:{
-      type:Number,
-      default:0
+    probeType: {
+      type: Number,
+      default: 0
     }
   },
   created() {},
@@ -36,12 +37,12 @@ export default {
       scrollY: this.scrollY,
       bounce: this.bounce,
       probeType: this.probeType,
-      startY:this.startY
+      click: true
     });
     this.clientHeight = this.$refs.content.clientHeight;
     this.scroll.on("scroll", pos => {
-      console.dir(this.$refs.content.clientHeight);
-      console.log(`Now position is x: ${pos.x}, y: ${pos.y}`);
+      this.startY = pos.y;
+      this.startX = pos.x;
     });
 
     this.scroll.on("beforeScrollStart", () => {

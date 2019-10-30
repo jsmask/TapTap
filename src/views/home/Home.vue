@@ -2,19 +2,15 @@
   <div class="home">
     <Navbar />
     <Taber />
-    <Scroll :probeType="1" ref="scroll" style="top:1rem;">
+    <keep-alive :include="['ios','android','medium']">
       <router-view></router-view>
-      <Footer />
-    </Scroll>
+    </keep-alive>
   </div>
 </template>
 
 <script>
 import Navbar from "components/Navbar.vue";
-import Footer from "components/Footer.vue";
-import Scroll from "components/Scroll.vue";
 import Taber from "./Taber";
-import Android from "./Android";
 
 export default {
   name: "home",
@@ -23,16 +19,11 @@ export default {
   },
   components: {
     Navbar,
-    Footer,
-    Scroll,
-    Taber,
-    Android
+    Taber
   },
   created() {},
   mounted() {
-    this.$nextTick(() => {
-      this.$refs.scroll.refresh();
-    });
+
   },
   methods: {}
 };

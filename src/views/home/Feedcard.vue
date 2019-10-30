@@ -18,7 +18,7 @@
           <p class="review-count">{{feed.num}}人评分</p>
           <p class="rating-score">
             <i class="iconfont">&#xe85f;</i>
-            <span>{{feed.score}}</span>
+            <span>{{feed.score.toFixed(1)}}</span>
           </p>
         </div>
       </div>
@@ -57,7 +57,7 @@ export default {
   border-radius: 5px;
   overflow: hidden;
 }
-.feed-pic img{
+.feed-pic img {
   position: absolute;
   left: 0;
   top: 0;
@@ -83,7 +83,7 @@ export default {
   display: block;
   object-fit: cover;
 }
-.feed-head img{
+.feed-head img {
   width: 50px;
   height: 50px;
   object-fit: cover;
@@ -108,6 +108,7 @@ export default {
   text-overflow: ellipsis;
   color: #ffffff;
   line-height: 24px;
+  width: 190px;
 }
 .feed-sbox p {
   color: #ffffff;

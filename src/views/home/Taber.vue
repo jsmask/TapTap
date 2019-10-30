@@ -4,13 +4,10 @@
       to="/android"
       class="tab-item"
       active-class="active"
+      :class="{'active':$route.path==='/'}"
     >Android</router-link>
-    <router-link
-      to="/ios"
-      class="tab-item"
-      active-class="active"
-    >iOS</router-link>
-    <router-link to class="tab-item">视频</router-link>
+    <router-link to="/ios" class="tab-item" active-class="active">iOS</router-link>
+    <router-link to="/video" class="tab-item" active-class="active">视频</router-link>
   </div>
 </template>
 

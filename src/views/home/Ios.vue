@@ -1,94 +1,97 @@
 <template>
-  <section>
-    <Feedcard :feed="feedinfo" />
+  <Scroll :probeType="1" ref="scroll" style="top:1rem;">
+    <section>
+      <Feedcard :feed="feedinfo" />
 
-    <div class="home-content">
-      <div class="home-box">
-        <mt-cell class="home-cell" title="安利墙" to value="查看更多"></mt-cell>
-        <Swiper class="review-list" ref="reviewSwiper">
-          <SwiperItem class="review-item" v-for="item in reviewlist" :key="item._id">
-            <p class="review-title">
-              <Lazy class="author-avatar" :src="item.avatar" />
-              <span class="taptap-user">{{item.nickname}}</span>
-              <span class="review-action">评价</span>
-              <span class="app-name">{{item.gamename}}</span>
-            </p>
-            <p class="review-star">
-              <i
-                class="iconfont"
-                v-for="(s,o) in 5"
-                :class="{'active':s<=~~item.star}"
-                :key="o"
-              >&#xe600;</i>
-            </p>
-            <p class="review-content" v-html="item.content"></p>
-            <div class="review-pic" :style="{'background-color': $color()}">
-              <Lazy :src="item.pic" />
-            </div>
-          </SwiperItem>
-        </Swiper>
+      <div class="home-content">
+        <div class="home-box">
+          <mt-cell class="home-cell" title="安利墙" to value="查看更多"></mt-cell>
+          <Swiper class="review-list" ref="reviewSwiper">
+            <SwiperItem class="review-item" v-for="item in reviewlist" :key="item._id">
+              <p class="review-title">
+                <Lazy class="author-avatar" :src="item.avatar" />
+                <span class="taptap-user">{{item.nickname}}</span>
+                <span class="review-action">评价</span>
+                <span class="app-name">{{item.gamename}}</span>
+              </p>
+              <p class="review-star">
+                <i
+                  class="iconfont"
+                  v-for="(s,o) in 5"
+                  :class="{'active':s<=~~item.star}"
+                  :key="o"
+                >&#xe600;</i>
+              </p>
+              <p class="review-content" v-html="item.content"></p>
+              <div class="review-pic" :style="{'background-color': $color()}">
+                <Lazy :src="item.pic" />
+              </div>
+            </SwiperItem>
+          </Swiper>
+        </div>
+
+        <Special v-if="speciallist[0]" :title="speciallist[0].title" :pic="speciallist[0].pic" />
+
+        <Card v-if="cardlist[0]" :card="cardlist[0]" />
+
+        <div class="home-box">
+          <mt-cell class="home-cell" title="即将开测" to value="查看更多"></mt-cell>
+          <Swiper class="try-list" ref="trySwiper">
+            <SwiperItem class="try-item" v-for="item in trylist" :key="item._id">
+              <p class="try-item-date">{{item.date}}</p>
+              <div class="try-item-pic" :style="{'background-color': $color()}">
+                <Lazy :src="item.face" />
+              </div>
+              <p class="try-item-name">{{item.name}}</p>
+            </SwiperItem>
+          </Swiper>
+        </div>
+
+        <div class="home-box">
+          <mt-cell class="home-cell" title="玩赏家推荐游戏" to value="查看更多"></mt-cell>
+          <Swiper class="review-list" ref="playerSwiper">
+            <SwiperItem class="review-item" v-for="item in playerlist" :key="item._id">
+              <p class="review-title">
+                <Lazy class="author-avatar" :src="item.avatar" />
+                <span class="taptap-user">{{item.nickname}}</span>
+                <span class="review-action">评价</span>
+                <span class="app-name">{{item.gamename}}</span>
+              </p>
+              <p class="review-star">
+                <i
+                  class="iconfont"
+                  v-for="(s,o) in 5"
+                  :class="{'active':s<=~~item.star}"
+                  :key="o"
+                >&#xe600;</i>
+              </p>
+              <p class="review-content" v-html="item.content"></p>
+              <div class="review-pic" :style="{'background-color': $color()}">
+                <Lazy :src="item.pic" />
+              </div>
+            </SwiperItem>
+          </Swiper>
+        </div>
+
+        <Special v-if="speciallist[1]" :title="speciallist[1].title" :pic="speciallist[1].pic" />
+
+        <Card v-if="cardlist[1]" :card="cardlist[1]" />
+
+        <Special v-if="speciallist[2]" :title="speciallist[2].title" :pic="speciallist[2].pic" />
+
+        <Card v-if="cardlist[2]" :card="cardlist[2]" />
+
+        <Special v-if="speciallist[3]" :title="speciallist[3].title" :pic="speciallist[3].pic" />
+
+        <Card v-for="(item,index) in morelist" :key="index" :card="item" />
+
+        <div class="more-box">
+          <mt-button class="more-btn" @click="loadMore">更多</mt-button>
+        </div>
       </div>
-
-      <Special v-if="speciallist[0]" :title="speciallist[0].title" :pic="speciallist[0].pic" />
-
-      <Card v-if="cardlist[0]" :card="cardlist[0]" />
-
-      <div class="home-box">
-        <mt-cell class="home-cell" title="即将开测" to value="查看更多"></mt-cell>
-        <Swiper class="try-list" ref="trySwiper">
-          <SwiperItem class="try-item" v-for="item in trylist" :key="item._id">
-            <p class="try-item-date">{{item.date}}</p>
-            <div class="try-item-pic" :style="{'background-color': $color()}">
-              <Lazy :src="item.face" />
-            </div>
-            <p class="try-item-name">{{item.name}}</p>
-          </SwiperItem>
-        </Swiper>
-      </div>
-
-      <div class="home-box">
-        <mt-cell class="home-cell" title="玩赏家推荐游戏" to value="查看更多"></mt-cell>
-        <Swiper class="review-list" ref="playerSwiper">
-          <SwiperItem class="review-item" v-for="item in playerlist" :key="item._id">
-            <p class="review-title">
-              <Lazy class="author-avatar" :src="item.avatar" />
-              <span class="taptap-user">{{item.nickname}}</span>
-              <span class="review-action">评价</span>
-              <span class="app-name">{{item.gamename}}</span>
-            </p>
-            <p class="review-star">
-              <i
-                class="iconfont"
-                v-for="(s,o) in 5"
-                :class="{'active':s<=~~item.star}"
-                :key="o"
-              >&#xe600;</i>
-            </p>
-            <p class="review-content" v-html="item.content"></p>
-            <div class="review-pic" :style="{'background-color': $color()}">
-              <Lazy :src="item.pic" />
-            </div>
-          </SwiperItem>
-        </Swiper>
-      </div>
-
-      <Special v-if="speciallist[1]" :title="speciallist[1].title" :pic="speciallist[1].pic" />
-
-      <Card v-if="cardlist[1]" :card="cardlist[1]" />
-
-      <Special v-if="speciallist[2]" :title="speciallist[2].title" :pic="speciallist[2].pic" />
-
-      <Card v-if="cardlist[2]" :card="cardlist[2]" />
-
-      <Special v-if="speciallist[3]" :title="speciallist[3].title" :pic="speciallist[3].pic" />
-
-      <Card v-for="(item,index) in morelist" :key="index" :card="item" />
-
-      <div class="more-box">
-        <mt-button class="more-btn" @click="loadMore">更多</mt-button>
-      </div>
-    </div>
-  </section>
+    </section>
+    <Footer />
+  </Scroll>
 </template>
 
 <script>
@@ -98,6 +101,8 @@ import Feedcard from "./Feedcard";
 import Swiper from "components/Swiper.vue";
 import SwiperItem from "components/SwiperItem.vue";
 import { reqIosInfo, reqHomeMore } from "network/api";
+import Footer from "components/Footer.vue";
+import Scroll from "components/Scroll.vue";
 
 export default {
   name: "ios",
@@ -118,7 +123,9 @@ export default {
     Swiper,
     SwiperItem,
     Card,
-    Special
+    Special,
+    Footer,
+    Scroll
   },
   created() {
     this.reqIosInfo();
