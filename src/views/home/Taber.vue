@@ -61,10 +61,9 @@ export default {};
   -webkit-transform: translate3d(-50%, 0, 0);
   transform: translate3d(-50%, 0, 0);
   display: block;
-  width: 5.3333333333vw;
-  height: 0.8vw;
+  width: 20px;
+  height: 3px;
   background: #14b9c8;
-  box-shadow: 0 1.0666666667vw 1.6vw 0 rgba(20, 185, 200, 0.2);
   border-radius: 1px;
 }
 </style>
