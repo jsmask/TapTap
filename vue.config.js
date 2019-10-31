@@ -1,7 +1,5 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production'
-    ? '/taptap/'
-    : '/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/taptap' : '/',
     outputDir: 'dist',
     productionSourceMap: true,
     assetsDir: "static",
