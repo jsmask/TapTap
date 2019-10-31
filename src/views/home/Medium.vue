@@ -1,5 +1,5 @@
 <template>
-  <Scroll :probeType="2" ref="scroll" style="top:1rem;">
+  <Scroll :probeType="3" ref="scroll" style="top:1rem;" :onScroll="onScroll">
     <section style="background:#f2f2f2;">
       <ul class="md-type-box">
         <li class="md-type-item" v-for="item in typelist" :key="item._id">
@@ -11,14 +11,17 @@
       </ul>
 
       <Videocard v-for="(item,index) in videolist" :key="index" :info="item" />
+
+      <Loader v-show="loading" />
     </section>
-    <Footer />
+    <Footer ref="footer" />
   </Scroll>
 </template>
 
 <script>
 import Footer from "components/Footer.vue";
 import Scroll from "components/Scroll.vue";
+import Loader from "components/Loader.vue";
 import { reqVideoInfo, reqVideoList } from "network/api";
 import Videocard from "./Videocard";
 
@@ -28,12 +31,15 @@ export default {
     return {
       typelist: [],
       videolist: [],
-      page: 1
+      page: 1,
+      loading: false,
+      space: 0
     };
   },
   components: {
     Footer,
     Scroll,
+    Loader,
     Videocard
   },
   created() {
@@ -45,6 +51,27 @@ export default {
     });
   },
   methods: {
+    initSpace() {
+      return (
+        this.$refs.scroll.clientHeight -
+        document.body.clientHeight -
+        this.$refs.footer.$el.clientHeight +
+        this.$refs.scroll.$el.offsetTop
+      );
+    },
+    onScroll(pos) {
+      if (this.space !== this.initSpace()) {
+        this.space = this.initSpace();
+        return false;
+      }
+      if (-pos.y >= this.space && this.page > 1) {
+        if (!this.loading) {
+          this.$refs.scroll.disable();
+          this.loading = true;
+          this.reqVideoList();
+        }
+      }
+    },
     async reqVideoInfo() {
       let res = await reqVideoInfo();
       const { status, text, data } = res;
@@ -56,9 +83,12 @@ export default {
       this.reqVideoList();
     },
     async reqVideoList() {
-      let res = await reqVideoList({
-        page: this.page
-      });
+      let res = await reqVideoList(
+        {
+          page: this.page
+        },
+        false
+      );
       const { status, text, data } = res;
       if (status !== 1) {
         $toast(text);
@@ -68,6 +98,10 @@ export default {
       this.page++;
       this.$nextTick(() => {
         this.$refs.scroll.refresh();
+        requestAnimationFrame(() => {
+          this.$refs.scroll.enable();
+          this.loading = false;
+        });
       });
     }
   }

@@ -29,7 +29,8 @@ export default {
     probeType: {
       type: Number,
       default: 0
-    }
+    },
+    onScroll: Function
   },
   created() {},
   mounted() {
@@ -43,6 +44,7 @@ export default {
     this.scroll.on("scroll", pos => {
       this.startY = pos.y;
       this.startX = pos.x;
+      this.onScroll && this.onScroll(pos);
     });
 
     this.scroll.on("beforeScrollStart", () => {
@@ -55,6 +57,19 @@ export default {
   methods: {
     refresh() {
       this.scroll && this.scroll.refresh();
+    },
+    destroy() {
+      this.scroll && this.scroll.destroy();
+    },
+    enable() {
+      this.scroll && this.scroll.enable();
+    },
+    disable() {
+      this.scroll && this.scroll.stop();
+      this.scroll && this.scroll.disable();
+    },
+    scrollToElement(el, time) {
+      this.scroll && this.scroll.scrollToElement(el, time);
     }
   }
 };

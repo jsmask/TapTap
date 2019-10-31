@@ -42,7 +42,7 @@ export default {
   top: 0px;
   left: 0;
   right: 0;
-  bottom: 250px;
+  bottom: 220px;
   background: #ffffff;
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
   <div class="card-video" @click.stop="open">
-    <video :src="src" :poster="poster" ref="video" :muted="ismuted" controlslist="nodownload"></video>
+    <video :src="src" ref="video" :muted="ismuted" controlslist="nodownload"></video>
+    <div class="video-poster" v-show="pic" :style="{'background-color':$color()}">
+      <Lazy :src="poster" />
+    </div>
     <i class="iconfont" @click.stop="play" v-show="!isplay">&#xe60a;</i>
     <div class="video-fn" v-show="isopen">
       <p class="video-bar" @click.stop="change" ref="bar">
@@ -30,7 +33,8 @@ export default {
       progress: 0,
       currentTime: 0,
       duration: 0,
-      isopen: false
+      isopen: false,
+      pic: true
     };
   },
   props: {
@@ -41,6 +45,7 @@ export default {
     play() {
       clearInterval(this.timer);
       this.isplay = true;
+      this.pic = false;
       let video = this.$refs.video;
       video.disablePictureInPicture = true;
       video.play();
@@ -81,6 +86,9 @@ export default {
       let width = this.$refs.bar.clientWidth;
       let video = this.$refs.video;
       video.currentTime = (len / width) * video.duration;
+      this.currentTime = ~~video.currentTime;
+      this.duration = ~~video.duration;
+      this.progress = (video.currentTime / video.duration).toFixed(2);
     },
     open() {
       if (this.isplay) {
@@ -92,6 +100,18 @@ export default {
 </script>
 
 <style scoped>
+.video-poster {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+.video-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .video-fn {
   position: absolute;
   left: 0;
