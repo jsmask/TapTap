@@ -1,4 +1,4 @@
-# TapTap
+# TapTap-demo
 仿制搭建taptap平台H5，并优化其体验
 
 ![Image home](http://pic.yupoo.com/jsmask/76f4afb0/7a3e5f03.png)
