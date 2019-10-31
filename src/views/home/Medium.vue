@@ -64,7 +64,7 @@ export default {
         this.space = this.initSpace();
         return false;
       }
-      if (-pos.y >= this.space && this.page > 1) {
+      if (-pos.y >= this.space && this.page > 1 && this.page < 6) {
         if (!this.loading) {
           this.$refs.scroll.disable();
           this.loading = true;
