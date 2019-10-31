@@ -11,7 +11,7 @@
       <video v-if="info" :muted="ismuted" :src="info.video" :poster="info.poster" ref="video"></video>
       <i class="iconfont" @click.stop="play" v-show="!isplay">&#xe60a;</i>
       <div class="video-fn" v-show="isopen">
-        <p class="video-bar">
+        <p class="video-bar" @click.stop="change" ref="bar">
           <span :style="{'width':progress*100+'%'}"></span>
         </p>
         <span @click.stop="music" :class="{'stop':ismuted}" class="music-box">
@@ -71,8 +71,8 @@ export default {
 
       this.timer = setInterval(() => {
         if (this.isplay) {
-          this.currentTime = video.currentTime;
-          this.duration = video.duration;
+          this.currentTime = ~~video.currentTime;
+          this.duration = ~~video.duration;
           this.progress = (video.currentTime / video.duration).toFixed(2);
         }
         if (video.ended) {
@@ -100,6 +100,12 @@ export default {
       let second = s - minute * 60;
       str += second > 9 ? second : "0" + second;
       return str;
+    },
+    change(e) {
+      let len = e.layerX;
+      let width = this.$refs.bar.clientWidth;
+      let video = this.$refs.video;
+      video.currentTime = (len / width) * video.duration;
     },
     open() {
       if (this.isplay) {
@@ -167,6 +173,18 @@ export default {
   bottom: 0;
   background-color: #14b9c8;
   display: block;
+}
+
+.video-bar > span::after {
+  content: "";
+  width: 8px;
+  position: absolute;
+  height: 8px;
+  border-radius: 100%;
+  background-color: #14b9c8;
+  right: 0;
+  top: 50%;
+  margin-top: -4px;
 }
 
 .card-video {
@@ -250,16 +268,16 @@ export default {
   color: #fff;
   cursor: pointer;
   font-size: 16px;
-  bottom: 10px;
+  bottom: 9px;
 }
 .music-btn {
   color: #fff;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
 }
 .music-box {
   position: absolute;
-  bottom: 8px;
+  bottom: 9px;
   right: 40px;
   cursor: pointer;
 }
@@ -295,7 +313,7 @@ export default {
   color: #fff;
   cursor: pointer;
   position: absolute;
-  bottom: 12px;
+  bottom: 10px;
   left: 40px;
   font-size: 13px;
 }
