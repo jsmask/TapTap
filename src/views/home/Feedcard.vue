@@ -108,7 +108,7 @@ export default {
   text-overflow: ellipsis;
   color: #ffffff;
   line-height: 24px;
-  width: 190px;
+  width: 180px;
 }
 .feed-sbox p {
   color: #ffffff;

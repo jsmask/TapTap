@@ -1,35 +1,26 @@
 <template>
-  <div class="card-box">
-    <div class="card-head">
-      <span v-if="info">
-        <img :src="info.avatar" />
+  <div class="card-video" @click.stop="open">
+    <video :src="src" :poster="poster" ref="video" :muted="ismuted" controlslist="nodownload"></video>
+    <i class="iconfont" @click.stop="play" v-show="!isplay">&#xe60a;</i>
+    <div class="video-fn" v-show="isopen">
+      <p class="video-bar" @click.stop="change" ref="bar">
+        <span :style="{'width':progress*100+'%'}"></span>
+      </p>
+      <span @click.stop="music" :class="{'stop':ismuted}" class="music-box">
+        <i class="iconfont music-btn">&#xeca5;</i>
       </span>
-      <span>{{info&&info.nickname}}</span>
+      <i @click.stop="full" class="iconfont full-btn">&#xe62f;</i>
+      <i @click.stop="play" v-show="!isplay" class="iconfont play-btn">&#xe60a;</i>
+      <i @click.stop="pause" v-show="isplay" class="iconfont pause-btn">&#xe663;</i>
+      <span
+        class="video-time"
+        v-if="isopen"
+      >{{secondsFormat(~~currentTime)}} / {{secondsFormat(duration)}}</span>
     </div>
-    <p class="card-title">{{info&&info.content}}</p>
-    <Media :src="info&&info.video" :poster="info&&info.poster" />
-    <p class="card-tips" v-if="info">
-      <span>{{info.title}}</span>
-    </p>
-    <ul class="card-fn" v-if="info">
-      <li :class="{'active':info.is_like}">
-        <i class="iconfont">&#xe60c;</i>
-        <span>{{info.like_num>0?info.like_num:'赞'}}</span>
-      </li>
-      <li>
-        <i class="iconfont">&#xe690;</i>
-        <span>{{info.talk_num>0?info.talk_num:'回复'}}</span>
-      </li>
-      <li>
-        <i class="iconfont">&#xe72f;</i>
-        <span>{{info.share_num>0?info.share_num:'分享'}}</span>
-      </li>
-    </ul>
   </div>
 </template>
 
 <script>
-import Media from "components/Media";
 export default {
   data() {
     return {
@@ -42,48 +33,65 @@ export default {
       isopen: false
     };
   },
-  components: {
-    Media
-  },
   props: {
-    info: Object
+    src: String,
+    poster: String
   },
-  methods: {}
+  methods: {
+    play() {
+      clearInterval(this.timer);
+      this.isplay = true;
+      let video = this.$refs.video;
+      video.disablePictureInPicture = true;
+      video.play();
+      this.timer = setInterval(() => {
+        this.ismuted = video.muted;
+        if (this.isplay) {
+          this.currentTime = ~~video.currentTime;
+          this.duration = ~~video.duration;
+          this.progress = (video.currentTime / video.duration).toFixed(2);
+        }
+        if (video.ended) {
+          this.isplay = false;
+        }
+      }, 100);
+    },
+    full() {
+      if (this.isopen) this.$refs.video.webkitRequestFullScreen();
+    },
+    music() {
+      this.ismuted = !this.ismuted;
+    },
+    pause() {
+      if (this.isplay) {
+        this.$refs.video.pause();
+        this.isplay = false;
+      }
+    },
+    secondsFormat(s) {
+      let str = "";
+      let minute = Math.floor(s / 60);
+      str += minute !== 0 ? minute : "0" + ":";
+      let second = s - minute * 60;
+      str += second > 9 ? second : "0" + second;
+      return str;
+    },
+    change(e) {
+      let len = e.layerX;
+      let width = this.$refs.bar.clientWidth;
+      let video = this.$refs.video;
+      video.currentTime = (len / width) * video.duration;
+    },
+    open() {
+      if (this.isplay) {
+        this.isopen = !this.isopen;
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
-.card-box {
-  background: #fff;
-  margin-bottom: 8px;
-  padding: 15px 15px 12px;
-  box-sizing: border-box;
-}
-.card-head img {
-  width: 34px;
-  height: 34px;
-  object-fit: cover;
-  display: inline-block;
-  border-radius: 50%;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-.card-head span {
-  font-size: 14px;
-  font-weight: 700;
-}
-.card-head {
-  margin-bottom: 10px;
-}
-
-.card-title {
-  font-size: 16px;
-  color: #333;
-  line-height: 26px;
-  display: block;
-  margin-bottom: 10px;
-}
-
 .video-fn {
   position: absolute;
   left: 0;
@@ -154,50 +162,7 @@ export default {
   color: #fff;
   z-index: 9;
 }
-.card-tips {
-  margin-bottom: 10px;
-}
-.card-tips span {
-  color: #14b9c8;
-  display: inline-flex;
-  align-items: center;
-  background: #e7f8f9;
-  font-size: 12px;
-  height: 24px;
-  line-height: 24px;
-  padding: 0px 8px;
-  box-sizing: border-box;
-  margin-right: 10px;
-}
-.card-fn {
-  display: flex;
-}
-.card-fn > li {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 0 10px;
-}
-.card-fn > li.active span,
-.card-fn > li.active i {
-  color: #14b9c8;
-}
-.card-fn > li span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #999;
-  font-size: 12px;
-  width: 50px;
-}
-.card-fn i {
-  font-size: 18px;
-  color: #ccc;
-  margin-right: 7px;
-  vertical-align: middle;
-}
+
 .full-btn {
   position: absolute;
   right: 10px;
