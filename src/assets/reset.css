@@ -67,6 +67,10 @@ a:focus {
     width: auto;
 }
 
+.mint-cell-wrapper{
+    background-image: none;
+}
+
 html,
 body,
 #app {

@@ -296,7 +296,7 @@ export default {
 }
 
 .try-list {
-  height: 166px;
+  height: 156px;
   box-sizing: border-box;
   padding-top: 10px;
 }

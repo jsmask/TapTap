@@ -18,7 +18,7 @@
         <p class="review-count">{{card.num}}人评分</p>
         <p class="rating-score">
           <i class="iconfont">&#xe85f;</i>
-          <span>{{card.score}}</span>
+          <span>{{card.score.toFixed(1)}}</span>
         </p>
       </div>
     </div>
