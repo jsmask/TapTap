@@ -53,7 +53,6 @@ export default {
         this.ismuted = video.muted;
         if(video.paused){
             this.isplay = false;
-            clearInterval(this.timer);
         }
         if (this.isplay) {
           this.currentTime = ~~video.currentTime;
