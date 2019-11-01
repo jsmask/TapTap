@@ -168,6 +168,13 @@ export default {
       this.morelist.push(...data.list);
       this.page++;
     }
+  },
+  activated() {
+    this.$refs.scroll.enable();
+    this.$refs.scroll.refresh();
+  },
+  deactivated() {
+    this.$refs.scroll.disable();
   }
 };
 </script>

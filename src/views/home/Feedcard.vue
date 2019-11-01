@@ -46,7 +46,6 @@ export default {
   padding: 15px;
   overflow: hidden;
   position: relative;
-  border-radius: 5px;
 }
 .feed-pic {
   position: absolute;

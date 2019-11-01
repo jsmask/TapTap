@@ -104,6 +104,13 @@ export default {
         });
       });
     }
+  },
+  activated() {
+    this.$refs.scroll.enable();
+    this.$refs.scroll.refresh();
+  },
+  deactivated() {
+    this.$refs.scroll.disable();
   }
 };
 </script>
