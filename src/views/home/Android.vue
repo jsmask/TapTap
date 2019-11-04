@@ -1,5 +1,5 @@
 <template>
-  <Scroll :probeType="1" ref="scroll" style="top:1rem;">
+  <Scroll :probeType="1" ref="scroll"  class="main-content">
     <section>
       <Feedcard :feed="feedinfo" />
       <div class="home-content">
@@ -180,6 +180,9 @@ export default {
 </script>
 
 <style scoped>
+.main-content{
+  top: 100px;
+}
 .more-box {
   background: #fff;
   padding: 30px 0px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="feed-card">
+  <div class="feed-card" @click.stop="toDetail">
     <div class="feed-pic" :style="{'background-color':feed&&feed.color}">
       <Lazy v-if="feed" :src="feed.pic" :key="feed._id" />
     </div>
@@ -33,6 +33,19 @@ export default {
   },
   props: {
     feed: Object
+  },
+  methods: {
+    toDetail() {
+      if (this.feed && this.feed._id) {
+        this.$router.history.push({
+          path: "/detail",
+          query: {
+            id: this.feed._id,
+            source: 0
+          }
+        });
+      }
+    }
   }
 };
 </script>

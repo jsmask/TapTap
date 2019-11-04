@@ -4,6 +4,7 @@ import Home from './views/home/Home.vue'
 import Android from './views/home/Android.vue'
 import Ios from './views/home/Ios.vue'
 import Medium from './views/home/Medium.vue'
+import Details from './views/details/index.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,9 @@ export default new Router({
         path:"/video",
         component: Medium
       }]
+    },{
+      path: '/detail',
+      component:Details
     }
   ]
 })

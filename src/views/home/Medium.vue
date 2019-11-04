@@ -1,5 +1,5 @@
 <template>
-  <Scroll :probeType="3" ref="scroll" style="top:1rem;" :onScroll="onScroll">
+  <Scroll :probeType="3" ref="scroll"  class="main-content" :onScroll="onScroll">
     <section style="background:#f2f2f2;">
       <ul class="md-type-box">
         <li class="md-type-item" v-for="item in typelist" :key="item._id">
@@ -116,6 +116,9 @@ export default {
 </script>
 
 <style scoped>
+.main-content{
+  top: 100px;
+}
 .md-type-box {
   background: #ffffff;
   height: auto;
