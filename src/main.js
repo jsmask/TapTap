@@ -5,13 +5,22 @@ import store from './store'
 import { Toast, Cell, Button, Header } from 'mint-ui';
 import 'normalize.css'
 import '../node_modules/swiper/css/swiper.min.css'
-import './assets/reset.css'
+import 'assets/reset.css'
 import './rem'
 import VueLazyload from 'vue-lazyload'
 import Lazy from 'components/Lazy'
 import { randomRgbColor } from '@/untils'
+import VueClipboard from 'vue-clipboard2'
+import VuePreview from './components/preview'
 
+
+
+VueClipboard.config.autoSetContainer = true;
+
+
+Vue.use(VueClipboard)
 Vue.use(VueLazyload)
+Vue.use(VuePreview)
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
@@ -19,12 +28,15 @@ Vue.use(VueLazyload, {
   listenEvents: ['scroll']
 })
 
+
 Vue.component(Cell.name, Cell);
 Vue.component(Button.name, Button);
 Vue.component(Header.name, Header);
+
 Vue.component(Lazy.name, Lazy);
 
 Vue.prototype.$color = randomRgbColor;
+
 
 Vue.prototype.$toast = ({ message, position, duration }) => {
   Toast({

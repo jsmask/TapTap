@@ -1,13 +1,19 @@
 <template>
   <ul class="crumb">
     <li>
-      <span>首页</span>
+      <span>
+        <slot name="0" />
+      </span>
     </li>
     <li>
-      <span>角色扮演</span>
+      <span>
+        <slot name="1" />
+      </span>
     </li>
     <li>
-      <span>螺旋英雄谭</span>
+      <span>
+        <slot name="2" />
+      </span>
     </li>
   </ul>
 </template>

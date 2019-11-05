@@ -1,8 +1,8 @@
 <template>
-  <div ref="scroll" class="wapper">
-    <div class="content" ref="content">
+  <div ref="scroll" class="vr-wapper">
+    <ul class="vr-content" ref="content">
       <slot />
-    </div>
+    </ul>
   </div>
 </template>
 
@@ -14,15 +14,16 @@ export default {
       startX: 0,
       startY: 0,
       scroll: null,
-      scrollY: true,
+      scrollX: true,
+      scrollY: false,
       bounce: {
-        top: true,
-        bottom: true,
-        left: false,
-        right: false
+        top: false,
+        bottom: false,
+        left: true,
+        right: true
       },
-      clientHeight: 0,
-      eventPassthrough: "horizontal"
+      clientWidth: 0,
+      eventPassthrough: "vertical"
     };
   },
   props: {
@@ -35,13 +36,15 @@ export default {
   created() {},
   mounted() {
     this.scroll = new BScroll(this.$refs.scroll, {
+      scrollX: this.scrollX,
       scrollY: this.scrollY,
       bounce: this.bounce,
       probeType: this.probeType,
-      click: true,
-      eventPassthrough:this.eventPassthrough
+      click: false,
+      eventPassthrough: this.eventPassthrough,
+      disableTouch:true
     });
-    this.clientHeight = this.$refs.content.clientHeight;
+    this.clientWidth = this.$refs.content.clientWidth;
     this.scroll.on("scroll", pos => {
       this.startY = pos.y;
       this.startX = pos.x;
@@ -49,8 +52,8 @@ export default {
     });
 
     this.scroll.on("beforeScrollStart", () => {
-      if (this.$refs.content.clientHeight !== this.clientHeight) {
-        this.clientHeight = this.$refs.content.clientHeight;
+      if (this.$refs.content.clientWidth !== this.clientWidth) {
+        this.clientWidth = this.$refs.content.clientWidth;
         this.refresh();
       }
     });
@@ -77,12 +80,17 @@ export default {
 </script>
 
 <style scoped>
-.wapper {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  overflow: hidden;
-  top: 0;
-  bottom: 0;
+.vr-content {
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin: 0;
+  font-size: 0;
+  white-space: nowrap;
+}
+.vr-wapper {
+  overflow-x: auto;
+  margin: 0;
+  font-size: 0;
+  white-space: nowrap;
 }
 </style>

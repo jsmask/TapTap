@@ -1,6 +1,6 @@
 <template>
   <div class="card-video" @click.stop="open">
-    <video :src="src" ref="video" :muted="ismuted" controlslist="nodownload"></video>
+    <video :src="src" ref="video" :muted="ismuted" controlslist="nodownload" :poster="poster"></video>
     <div class="video-poster" v-show="pic" :style="{'background-color':$color()}">
       <Lazy :src="poster" />
     </div>
@@ -94,9 +94,11 @@ export default {
       this.progress = (video.currentTime / video.duration).toFixed(2);
     },
     open() {
+      
       if (this.isplay) {
         this.isopen = !this.isopen;
       }
+      
     }
   }
 };
