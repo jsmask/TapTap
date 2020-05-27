@@ -5,6 +5,10 @@ import Android from './views/home/Android.vue'
 import Ios from './views/home/Ios.vue'
 import Medium from './views/home/Medium.vue'
 import Details from './views/details/index.vue'
+ 
+
+// 异步加载组件
+// const Details = () => import("./views/details/index.vue")
 
 Vue.use(Router)
 
